@@ -1,0 +1,35 @@
+{% extends 'store/base.html' %}
+{% block content %}
+    <h1 class="text-center">{{ page_title }}</h1>
+    {% for message in messages %}
+        <p class="messages {{ message.tags }}">{{ message }}</p>
+    {% endfor %}
+
+        <div class="row">
+            {% for p in product %}
+                <div class="col-sm-4 mb-5 ">
+                    <div class="card centercontent" style="width:20rem">
+                        <div class="card-body">
+                            <a href="{% url 'store-info' item_id=p.id %}">
+                                <img src="{{ p.image }}" class="card-img-top mb-3">
+                            </a>
+                        
+                            <h5 class="card-title">{{ p.name }}</h5>
+                            <h3>${{ p.price }}</h3>
+                            <form action="{% url 'store-cart' %}" method = "POST">
+                                {% csrf_token %}
+                                <input class="d-none" type="text" value="{{ request.user.id }}" name="username">
+                                <input class="d-none" type="text" value="{{ p.id }}" name="product">
+                                <input type="submit" value="add to cart">
+
+                            </form>
+                        
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+            
+        </div>
+    
+
+{% endblock %}
